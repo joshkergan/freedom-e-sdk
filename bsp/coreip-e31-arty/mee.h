@@ -3,6 +3,11 @@
 #include <mee/drivers/sifive,gpio0.h>
 #include <mee/drivers/sifive,uart0.h>
 #include <mee/drivers/sifive,test0.h>
+#include <mee/drivers/riscv,rv32,pmp.h>
+/* From pmp@0 */
+asm (".weak __mee_dt_pmp_0");
+struct __mee_driver_riscv_rv32_pmp __mee_dt_pmp_0;
+
 /* From clock@0 */
 asm (".weak __mee_dt_clock_0");
 struct __mee_driver_fixed_clock __mee_dt_clock_0;
@@ -44,6 +49,15 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000 = {
     .pinmux = NULL,
 };
 
+/* From pmp@0 */
+struct __mee_driver_riscv_rv32_pmp __mee_dt_pmp_0 = {
+    .vtable = &__mee_driver_vtable_riscv_rv32_pmp,
+    .pmp.vtable = &__mee_driver_vtable_riscv_rv32_pmp.pmp,
+    .num_regions = 8UL,
+};
+
+/* From pmp@0 */
+#define __MEE_DT_PMP_HANDLE (&__mee_dt_pmp_0.pmp)
 /* From teststatus@4000 */
 struct __mee_driver_sifive_test0 __mee_dt_teststatus_4000 = {
     .vtable = &__mee_driver_vtable_sifive_test0,
